@@ -10,8 +10,8 @@ public class Door extends Item {
     private String keyId;
     private Boolean isOpen;
     private Room next;
-    public Door(int id,int xpos,int ypos,String imagePath,int width,int height,String keyId,Room next){
-        super(id,xpos,ypos,imagePath, width, height);
+    public Door(int xpos,int ypos,String imagePath,int width,int height,String keyId,Room next){
+        super(xpos,ypos,imagePath, width, height);
         this.keyId = keyId;
         isOpen = false;
         this.next = next;

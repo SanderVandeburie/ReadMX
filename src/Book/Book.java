@@ -2,6 +2,8 @@ package Book;
 
 
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 
@@ -9,67 +11,64 @@ public class Book {
 
     private int x, y;
     private int place;
-    private String[] page;
-
+    private int lastePage;
+    private List<String> page;
+    private int width = 390;
+    private int height = 600;
+    private Boolean isOpen = false;
 
     public Book (int xpos, int ypos){
 
-        page = new String[7];
+        page = new ArrayList<String>();
         place = 0;
         x = xpos;
         y = ypos;
     }
 
-    public Book (){
 
-        //page = new  [7];
-        place = 0;
-        //page1 = new ImageIcon (getClass().getResource ("1.jpg"));
-
-        //x = page.getIconWidth;
-       // y = page.getIconHeight;
-
+    public void InsertPage (String path){
+       page.add(path);
     }
 
-    public void InsertPage (String Path){
-
-        for (int i=0; i<7; i++){
-
-            if (page[i] == null){
-
-                page[i] = Path;
-
-                i =7;
-            }
-
+    private void OpenBook(){
+        //todo add cover image
+        x = 445;
+        y = 100;
+        width = 390;
+        height = 600;
+        isOpen = true;
+    }
+    private void CloseBook(){
+        //todo add bookIcon
+        x = 50;
+        y = 550;
+        width = 200;
+        height = 200;
+        isOpen = false;
+    }
+    public void clickBook(){
+        if(isOpen && place == page.size()-1){
+            Next();
+            CloseBook();
         }
-
+        else if(isOpen){
+            Next();
+        }
+        else
+        {
+            OpenBook();
+        }
     }
 
-    public void Next (){
+    private void Next (){
 
         place++;
 
-        if (place == 7){
-
-            place = 0;
-        }
-    }
-    public void Previous (){
-
-        place--;
-
-        if (place == 7){
-
+        if (place == page.size()){
             place = 0;
         }
     }
 
-   // public ImageIcon getPage (){
-
-        //return page[place];
-
-   // }
 
 
 

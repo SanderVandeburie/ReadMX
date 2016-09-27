@@ -207,35 +207,36 @@ public final class Game extends Application{
     @Override
     public void mousePressed(MouseEvent e) {
 
-    private void CheckPrevious(int x , int y)
-    {
-        if (y > 650 && y < 750 && x < 120 && x > 20)
+        private void CheckPrevious ( int x, int y)
         {
-            GoPrevious();
+            if (y > 650 && y < 750 && x < 120 && x > 20) {
+                GoPrevious();
+            }
         }
-    }
-    private void CheckNext(int x , int y){
-        if (y > 650 && y < 750 && x < 1100 && x > 1000)
-        {
+
+    private void CheckNext(int x, int y) {
+        if (y > 650 && y < 750 && x < 1100 && x > 1000) {
             GoNext();
         }
     }
-    private void GoPrevious(){
-        if(GetCurrentRoom().GetCurrentView().getId() == 1)
+
+    private void GoPrevious() {
+        if (GetCurrentRoom().GetCurrentView().getId() == 1)
             GetCurrentRoom().setCurrentView(4);
         else
-            GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId()-1);
+            GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId() - 1);
 
         Paint();
     }
-    private void GoNext(){
-        if(GetCurrentRoom().GetCurrentView().getId() == 4)
+
+    private void GoNext() {
+        if (GetCurrentRoom().GetCurrentView().getId() == 4)
             GetCurrentRoom().setCurrentView(1);
         else
-            GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId()+1);
+            GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId() + 1);
 
         Paint();
     }
-
+}
 
 }
