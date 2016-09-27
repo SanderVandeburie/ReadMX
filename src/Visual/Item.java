@@ -21,22 +21,27 @@ public class Item {
     public int getHeight() {
         return height;
     }
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
     private int ypos;
     private int width;
     private int height;
-    private Image image;
+    private String image;
 
 
-    public Item(int id, int xpos,int ypos,String imagePath){
+    public Item(int id, int xpos,int ypos,String imagePath,int width,int height){
         this.id = id;
         this.xpos = xpos;
         this.ypos = ypos;
-        this.image = new Image(imagePath);
-        this.width = (int)image.getWidth();
-        this.height = (int)image.getHeight();
+        this.image = new String(imagePath);
+        this.width = width;
+        this.height = height;
+    }
+
+    public void interactWith(Item item)
+    {
+
     }
 }
