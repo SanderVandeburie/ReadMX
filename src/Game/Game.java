@@ -178,6 +178,7 @@ public final class Game extends Application{
                     {
                         if(item.interactWith(currentHolding)){
                             currentView.dropItem(item);
+
                         }
 
                     }
