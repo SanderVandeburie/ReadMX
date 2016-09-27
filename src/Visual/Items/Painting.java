@@ -12,16 +12,12 @@ public class Painting extends Item {
     private String keyId;
 
 
-    private Item next;
 
-    public Painting(int xpos, int ypos, String imagePath, int width, int height,String key, Item next,boolean collectable,boolean dropable) {
+    public Painting(int xpos, int ypos, String imagePath, int width, int height,String key) {
         super(xpos, ypos, imagePath, width, height);
-        this.next = next;
+        keyId = key;
     }
 
-    public Item getNext() {
-        return next;
-    }
 
     @Override
     public Boolean interactWith(Item key){
@@ -29,8 +25,7 @@ public class Painting extends Item {
             if(keyId.matches(((Key) key).getKeyId()))
             {
                 key.dropOutOfInventory();
-                //todo
-                //Player.addToInventory(new Key(0,0,"some string path","C"));
+                Player.addToInventory(new Key(0,0,"file:resources\\Key.png","C"));
                 return true;
             }
         }

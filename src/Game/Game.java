@@ -124,7 +124,7 @@ public final class Game extends Application{
 
         Key key = new Key(1,1,"file:resources\\Key.bmp","B");
 
-        Item item1v4 = new Painting(620,100,"file:resources\\Painting-Man.png",320,440,"cane",key,false,true);
+        Item item1v4 = new Painting(620,100,"file:resources\\Painting-Man.png",320,440,"cane");
         Item item2v4 = new Item(230,100,"file:resources\\Painting-Woman.png",320,440);
         view4.addItem(item1v4);
         view4.addItem(item2v4);
@@ -177,7 +177,7 @@ public final class Game extends Application{
                     else
                     {
                         if(item.interactWith(currentHolding)){
-
+                            currentView.dropItem(item);
                         }
 
                     }
@@ -186,7 +186,6 @@ public final class Game extends Application{
                     Paint();
             }
         });
-
         Paint();
 
         theStage.show();
