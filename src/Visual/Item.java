@@ -15,13 +15,8 @@ public class Item {
     private String image;
 
 
-    private boolean collectable;
-
     public int getXpos() {
         return xpos;
-    }
-    public boolean isCollectable() {
-        return collectable;
     }
     public int getYpos() {
         return ypos;
@@ -48,19 +43,17 @@ public class Item {
 
 
 
-    public Item(int xpos,int ypos,String imagePath,int width,int height,boolean collectable){
+    public Item(int xpos,int ypos,String imagePath,int width,int height){
         this.xpos = xpos;
         this.ypos = ypos;
         this.image = new String(imagePath);
         this.width = width;
         this.height = height;
-        this.collectable = collectable;
     }
 
     public Boolean clicked(){
         return false;
     }
-
 
 
     public Boolean interactWith(Item item)

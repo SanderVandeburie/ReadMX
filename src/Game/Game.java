@@ -62,28 +62,28 @@ public final class Game extends Application{
 
         View view1 = new View("file:resources\\WallRoom1.png",1);
 
-        Item item1v1 = new Item(630,50,"file:resources\\Door-closed.png",250,600,false);
+        Item item1v1 = new Item(630,50,"file:resources\\Door-closed.png",250,600);
         view1.addItem(item1v1);
         views[0] = view1;
 
         View view2 = new View("file:resources\\WallRoom1.png",2);
 
-        Item item2v1 = new Item(150,370,"file:resources\\Desk.png",500,300,false);
-        Item item2v2 = new Trashcan(630,570,"file:resources\\Trash-with-page.png",70,100,false);
+        Item item2v1 = new Item(150,370,"file:resources\\Desk.png",500,300);
+        Item item2v2 = new Trashcan(630,570,"file:resources\\Trash-with-page.png");
         view2.addItem(item2v1);
         view2.addItem(item2v2);
         views[1] = view2;
 
         View view3 = new View("file:resources\\WallRoom1.png",3);
 
-        Item item3v1 = new Item(340,100,"file:resources\\Window.jpg",500,400,false);
+        Item item3v1 = new Item(340,100,"file:resources\\Window.jpg",500,400);
         view3.addItem(item3v1);
         views[2] = view3;
 
         View view4 = new View("file:resources\\WallRoom1.png",4);
 
-        Item item4v1 = new Item(740,320,"file:resources\\Vault.png",250,350,false);
-        Item item4v2 = new Item(300, 150,"file:resources\\RomanPoster.png",300,200,false);
+        Item item4v1 = new Item(740,320,"file:resources\\Vault.png",250,350);
+        Item item4v2 = new Item(300, 150,"file:resources\\RomanPoster.png",300,200);
         view4.addItem(item4v1);
         view4.addItem(item4v2);
         views[3] = view4;

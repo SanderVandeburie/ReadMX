@@ -1,5 +1,6 @@
 package Visual.Items;
 
+import Game.Player;
 import Visual.Item;
 
 /**
@@ -7,11 +8,16 @@ import Visual.Item;
  */
 public class Key extends Item {
     private String keyId;
-    public Key(int xpos, int ypos,String imagePath,int width,int height,String keyId,boolean collectable){
-        super(xpos,ypos,imagePath,width,height,collectable);
+    public Key(String imagePath,String keyId){
+        super(0,0,imagePath,100,100);
         this.keyId = keyId;
     }
 
+    @Override
+    public Boolean clicked(){
+        Player.addToInventory(this);
+        return true;
+    }
 
     public String getKeyId(){
         return keyId;
