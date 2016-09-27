@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public final class Game extends Application implements MouseListener{
+public final class Game extends Application{
 
     int currentRoom;
     Book book;
@@ -54,39 +54,39 @@ public final class Game extends Application implements MouseListener{
     private void CreateRoom1() {
         Room room = new Room(1);
 
-        View[] views = new View[1];
+        View[] views = new View[4];
 
-        View view1 = new View("Wall_1");
+        View view1 = new View("file:resources\\WallRoom1.jpg",1);
 
-        Item item1v1 = new Item(1,600,500,"file:resources\\Vault.png",200,200);
+        Item item1v1 = new Item(1,880,500,"file:resources\\Vault.png",200,200);
         Item item1v2 = new Item(1,100, 100,"file:resources\\Painting.jpg",150,300);
         view1.addItem(item1v1);
         view1.addItem(item1v2);
         views[0] = view1;
 
-        /*View view2 = new View("Wall_2");
+        View view2 = new View("file:resources\\WallRoom1.jpg",2);
 
-        Item item2v1 = new Item(1,1,1,"Chair");
-        Item item2v2 = new Item(1,1,1,"Thrashcan");
-        view1.addItem(item2v1);
-        view1.addItem(item2v2);
-        views[0] = view2;
+        //Item item2v1 = new Item(1,1,1,"Chair");
+        //Item item2v2 = new Item(1,1,1,"Thrashcan");
+        //view1.addItem(item2v1);
+        //view1.addItem(item2v2);
+        views[1] = view2;
 
-        View view3 = new View("Wall_3");
+        View view3 = new View("file:resources\\WallRoom1.jpg",3);
 
-        Item item3v1 = new Item(1,1,1,"Vault");
-        view1.addItem(item3v1);
-        views[0] = view3;
+        //Item item3v1 = new Item(1,1,1,"Vault");
+        //view1.addItem(item3v1);
+        views[2] = view3;
 
-        View view4 = new View("Wall_1");
+        View view4 = new View("file:resources\\WallRoom1.jpg",4);
 
-        Item item4v1 = new Item(1,1,1,"Coathanger");
-        Item item4v2 = new Item(1,1,1,"Door");
-        Item item4v3 = new Item(1,1,1,"Plant");
-        view1.addItem(item4v1);
-        view1.addItem(item4v2);
-        view1.addItem(item4v3);
-        views[0] = view4;*/
+        //Item item4v1 = new Item(1,1,1,"Coathanger");
+        //Item item4v2 = new Item(1,1,1,"Door");
+        //Item item4v3 = new Item(1,1,1,"Plant");
+        //view1.addItem(item4v1);
+        //view1.addItem(item4v2);
+        //view1.addItem(item4v3);
+        views[3] = view4;
 
         room.setViews(views);
         rooms[0] = room;
@@ -108,21 +108,29 @@ public final class Game extends Application implements MouseListener{
 
         currentRoom = 1;
         GetCurrentRoom().setCurrentView(1);
+
         Draw(stage);
     }
 
     private void Draw(Stage theStage)
     {
-        theStage.setTitle( "Canvas Example" );
-
         Group root = new Group();
         Scene theScene = new Scene( root );
+        Canvas canvas = new Canvas( 1280, 800);
+
+        theStage.setTitle( "Dreadle" );
         theStage.setScene( theScene );
+
+        root.getChildren().add( canvas );
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
         theScene.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(javafx.scene.input.MouseEvent event) {
                 tmp = GetCurrentRoom().GetCurrentView().findItem((int) event.getX(),(int) event.getY());
+                CheckNext((int) event.getX(),(int) event.getY());
+                CheckPrevious((int) event.getX(),(int) event.getY());
                 if(tmp != null)
                 {
                     tmp.interactWith(currentHolding);
@@ -130,46 +138,60 @@ public final class Game extends Application implements MouseListener{
             }
         });
 
-        Canvas canvas = new Canvas( 1000, 800 );
-        root.getChildren().add( canvas );
+        Image img = new Image(GetCurrentRoom().GetCurrentView().getBackground(),1180, 800, false, false);
+        gc.drawImage( img, 0, 0 );
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (Item item : GetCurrentRoom().GetCurrentView().getItems())
+        {
+            img = new Image(item.getImage(),item.getWidth(),item.getHeight(),false,false);
+            gc.drawImage(img, item.getXpos(), item.getYpos());
+        }
 
-        Image wall = new Image("file:resources\\Wall1.jpg",1000, 800, false, false);
-        gc.drawImage( wall, 0, 0 );
-        Image painting = new Image("file:resources\\Painting.jpg",150, 300, false, false);
-        gc.drawImage( painting, 100, 100 );
-        Image vault = new Image("file:resources\\Vault.png",200, 200, false, false);
-        gc.drawImage( vault, 600, 500 );
+        img = new Image("file:resources\\Previous.png",150,100,false,false);
+        gc.drawImage(img, 20, 650);
+        img = new Image("file:resources\\Next.png",150,100,false,false);
+        gc.drawImage(img, 1000, 650);
 
         theStage.show();
-
-
     }
 
     private Room GetCurrentRoom(){
-        return rooms[currentRoom-1];
-    }
+        return rooms[currentRoom-1];    }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        //GetCurrentRoom().GetCurrentView().FindItem(e.getX(),e.getY()).InteractWith();
-    }
-    @Override
-    public void mousePressed(MouseEvent e) {
 
+    private void CheckPrevious(int x , int y)
+    {
+        if (y > 650 && y < 750 && x < 120 && x > 20)
+        {
+            GoPrevious();
+        }
     }
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
+    private void CheckNext(int x , int y)
+    {
+        if (y > 650 && y < 750 && x < 1100 && x > 1000)
+        {
+            GoNext();
+        }
     }
-    @Override
-    public void mouseEntered(MouseEvent e) {
+    private void GoPrevious()
+    {
+        if(GetCurrentRoom().GetCurrentView().getId() == 1)
+            GetCurrentRoom().setCurrentView(4);
+        else
+            GetCurrentRoom().setCurrentView(currentRoom--);
 
+        Draw(stage);
+        System.out.println("Previous");
     }
-    @Override
-    public void mouseExited(MouseEvent e) {
+    private void GoNext()
+    {
+        if(GetCurrentRoom().GetCurrentView().getId() == 4)
+            GetCurrentRoom().setCurrentView(1);
+        else
+            GetCurrentRoom().setCurrentView(currentRoom++);
 
+        Draw(stage);
+        System.out.println("Next");
     }
 
     @Override

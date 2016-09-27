@@ -12,17 +12,23 @@ import java.util.List;
 public class View {
     private List<Item> items ;
 
+    private int id;
+
     public String getBackground() {
         return background;
     }
     public List<Item> getItems() {
         return items;
     }
+    public int getId() {
+        return id;
+    }
 
     private String background;
 
-    public View(String backgroundpath){
-        this.background = background;
+    public View(String backgroundpath,int id){
+        this.background = backgroundpath;
+        this.id = id;
         items =  new ArrayList<Item>();
 
     }

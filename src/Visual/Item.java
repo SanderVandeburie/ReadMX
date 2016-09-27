@@ -1,5 +1,6 @@
 package Visual;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.scene.image.Image;
 
 /**
@@ -42,6 +43,6 @@ public class Item {
 
     public void interactWith(Item item)
     {
-
+        System.out.println(this.image);
     }
 }
