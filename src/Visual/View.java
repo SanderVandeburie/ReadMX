@@ -11,6 +11,14 @@ import java.util.List;
  */
 public class View {
     private List<Item> items ;
+
+    public Image getBackground() {
+        return background;
+    }
+    public List<Item> getItems() {
+        return items;
+    }
+
     private Image background;
 
     public View(String backgroundpath){
@@ -19,11 +27,13 @@ public class View {
 
     }
 
-    public void addItem(Item item){
+    public void addItem(Item item) {
         items.add(item);
 
 
     }
+
+
 
 }
 

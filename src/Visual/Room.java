@@ -1,12 +1,15 @@
 package Visual;
 
-/**
- * Created by yodi on 27/09/2016.
- */
 import javafx.scene.image.Image;
 public class Room {
     private int id;
     private View[] views;
+
+    public void setCurrentView(int currentView) {
+        this.currentView = currentView;
+    }
+
+    private int currentView;
 
     public Room(int id){
         this.id = id;
@@ -16,6 +19,11 @@ public class Room {
     public void setViews(View[] views){
         this.views = views;
 
+    }
+
+    public View GetCurrentView()
+    {
+        return views[currentView -1];
     }
 
 }

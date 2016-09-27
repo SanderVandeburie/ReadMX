@@ -8,6 +8,23 @@ import javafx.scene.image.Image;
 public class Item {
     private int id;
     private int xpos;
+
+    public int getXpos() {
+        return xpos;
+    }
+    public int getYpos() {
+        return ypos;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public Image getImage() {
+        return image;
+    }
+
     private int ypos;
     private int width;
     private int height;
