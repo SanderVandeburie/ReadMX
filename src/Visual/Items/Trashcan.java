@@ -1,18 +1,15 @@
 package Visual.Items;
 
-import Game.Player;
 import Visual.Item;
 
 public class Trashcan extends Item {
-    public Trashcan(int xpos, int ypos, String imagePath) {
-        super(xpos, ypos, imagePath, 390, 411);
+    public Trashcan(int xpos, int ypos, String imagePath, int width, int height,boolean collectable,boolean dropable) {
+        super(xpos, ypos, imagePath, width, height, collectable,dropable);
     }
 
     @Override
-    public Boolean clicked() {
+    public Boolean interactWith(Item item) {
         setImage("file:resources\\Trash-no-page.png");
-        //todo add page resourdes
-        //Player.addPage();
         return false;
     }
 }

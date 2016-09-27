@@ -9,14 +9,18 @@ import javafx.scene.image.Image;
  */
 public class Item {
     private int xpos;
-    private int ypos;
-    private int width;
-    private int height;
-    private String image;
 
+
+    private boolean collectable;
 
     public int getXpos() {
         return xpos;
+    }
+    public boolean isCollectable() {
+        return collectable;
+    }
+    public boolean isDropable() {
+        return dropable;
     }
     public int getYpos() {
         return ypos;
@@ -40,24 +44,36 @@ public class Item {
         image =  path;
     }
 
+    private int ypos;
+    private int width;
+    private int height;
+    private String image;
+    private boolean dropable;
 
 
-
-    public Item(int xpos,int ypos,String imagePath,int width,int height){
+    public Item(int xpos,int ypos,String imagePath,int width,int height,boolean collectable,boolean dropable){
         this.xpos = xpos;
         this.ypos = ypos;
         this.image = new String(imagePath);
         this.width = width;
         this.height = height;
+        this.collectable = collectable;
+        this.dropable = dropable;
     }
 
-    public Boolean clicked(){
-        return false;
-    }
 
 
     public Boolean interactWith(Item item)
     {
         return false;
+    }
+
+    public void Collected()
+    {
+        collectable = false;
+    }
+    public Item GetItem()
+    {
+        return this;
     }
 }

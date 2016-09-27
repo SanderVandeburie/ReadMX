@@ -9,9 +9,9 @@ import Visual.Room;
 public class Door extends Item {
     private String keyId;
     private Boolean isOpen;
-    private Room next;
-    public Door(int xpos,int ypos,String imagePath,String keyId,Room next){
-        super(xpos,ypos,imagePath, 320, 760);
+    private int next;
+    public Door(int xpos,int ypos,String imagePath,int width,int height,String keyId,int next,boolean collectable,boolean dropable){
+        super(xpos,ypos,imagePath, width, height, collectable,dropable);
         this.keyId = keyId;
         isOpen = false;
         this.next = next;
@@ -20,7 +20,7 @@ public class Door extends Item {
         isOpen = true;
     }
 
-    public Room getNextRoom() {
+    public int getNextRoom() {
         return next;
     }
 
