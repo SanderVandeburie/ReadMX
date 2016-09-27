@@ -1,10 +1,7 @@
 package Game;
 
 import Visual.Item;
-import Visual.Items.CaneHolder;
-import Visual.Items.Door;
-import Visual.Items.Key;
-import Visual.Items.Trashcan;
+import Visual.Items.*;
 import Visual.Room;
 import Book.Book;
 import Visual.View;
@@ -40,6 +37,7 @@ public final class Game extends Application{
     public Game(Stage stage) throws Exception {
         this.stage = stage;
         this.inventory =  new Inventory();
+
         Init();
         LoadGame();
 
@@ -123,7 +121,9 @@ public final class Game extends Application{
 
         View view4 = new View("file:resources\\WallRoom2.png",4);
 
-        Item item1v4 = new Door(620,100,"file:resources\\Painting-Man.png",320,440,"cane",2,false,true);
+        Key key = new Key(1,1,"file:resources\\Key.bmp",1,1,"B",true,true);
+
+        Item item1v4 = new Painting(620,100,"file:resources\\Painting-Man.png",320,440,"cane",key,false,true);
         Item item2v4 = new Item(230,100,"file:resources\\Painting-Woman.png",320,440,false,false);
         view4.addItem(item1v4);
         view4.addItem(item2v4);
@@ -216,17 +216,15 @@ public final class Game extends Application{
         CheckInventory(x,y);
     }
     private void CheckInventory(int x , int y){
-
         if(x < 1180){
             inRoom(x,y);
         }
         else{
             inIventory(y);
         }
-
-
     }
     private void inIventory(int y){
+        if (inventory.getItemOn(y) != null)
         currentHolding = inventory.getItemOn(y);
     }
     private void inRoom(int x,int y){
@@ -236,7 +234,10 @@ public final class Game extends Application{
             if(currentHolding != null){
                 if(clicked.interactWith(currentHolding))
                 {
-                    inventory.removeItem(clicked);
+                    if(clicked.isDropable())
+                        inventory.removeItem(clicked);
+                    CheckDoors((Door) clicked);
+                    CheckPaintings((Painting) clicked);
                 }
             }
             else if(clicked.isCollectable()){
@@ -273,6 +274,19 @@ public final class Game extends Application{
         else
             GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId()+1);
 
+        Paint();
+    }
+
+    private void CheckDoors(Door door)
+    {
+        if(door.getOpen())
+            currentRoom = door.getNextRoom();
+        Paint();
+    }
+    private void CheckPaintings(Painting door)
+    {
+        if(door.getOpen())
+            Inventory.addItem(door.getNext());
         Paint();
     }
 

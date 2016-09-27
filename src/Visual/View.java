@@ -48,10 +48,6 @@ public class View {
             if (x > item.getXpos() && x < (item.getXpos() + item.getWidth() ) && y < (item.getYpos() + item.getHeight()) && y > item.getYpos())
             {
                tmp = item;
-                if(item.clicked())
-                {
-                    dropItem(item);
-                }
             }
         }
 
@@ -59,7 +55,7 @@ public class View {
 
     }
 
-    private void dropItem(Item item){
+    public void dropItem(Item item){
         items.remove(item);
     }
 

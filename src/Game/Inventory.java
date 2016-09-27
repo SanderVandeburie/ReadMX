@@ -34,7 +34,10 @@ public class Inventory {
         }
     }
     public Item getItemOn(int ypos){
-        return items[(ypos/100)-1];
+        if(items[(ypos/160)] != null)
+            return items[(ypos/160)];
+        else
+            return null;
     }
 
 }

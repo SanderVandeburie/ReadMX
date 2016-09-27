@@ -8,6 +8,11 @@ import Visual.Room;
  */
 public class Door extends Item {
     private String keyId;
+
+    public Boolean getOpen() {
+        return isOpen;
+    }
+
     private Boolean isOpen;
     private int next;
     public Door(int xpos,int ypos,String imagePath,int width,int height,String keyId,int next,boolean collectable,boolean dropable){
