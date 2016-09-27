@@ -15,6 +15,7 @@ public class Room {
 
     public void setViews(View[] views){
         this.views = views;
+
     }
 
 }
