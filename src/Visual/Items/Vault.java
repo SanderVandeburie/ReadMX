@@ -7,51 +7,25 @@ import Visual.Item;
  * Created by yodi on 27/09/2016.
  */
 public class Vault extends Item {
-    private int first = 0;
-    private int seccond = 0;
-    private int third = 0;
-    private int fourth = 0;
-    private int Solution1 = 2;
-    private int Solution2 = 7;
-    private int Solution3 = 5;
-    private int Solution4 = 0;
+    private int[] input =  new int[4];
+    private int[] solution = new int[4];
     public Vault(int xpos, int ypos, String imagePath, int width, int height) {
         super(xpos, ypos, imagePath, width, height);
-
+        solution[0] = 2;
+        solution[1] = 7;
+        solution[2] = 5;
+        solution[3] = 0;
     }
-    public void turnFirst(){
-        first = (first+1)%10;
-        check();
-    }
-    public void turnSeccond(){
-        seccond = (seccond+1)%10;
-        check();
-    }
-    public void turnThird(){
-        third = (third+1)%10;
-        check();
-    }
-    public void turnFourth(){
-        fourth = (fourth+1)%10;
+    public void addInput(int id){
+        input[id] = (input[id] +1 ) %10;
         check();
     }
     private void check(){
         Boolean res = true;
-        if(first != Solution1)
-        {
-            res = false;
-        }
-        if(seccond != Solution2)
-        {
-            res = false;
-        }
-        if(third != Solution3)
-        {
-            res = false;
-        }
-        if(fourth != Solution4)
-        {
-            res = false;
+        for(int i = 0; i < input.length; i ++){
+            if(input[i] != solution[i]){
+                res = false;
+            }
         }
         if (res){
             Inventory.addItem(new Key(0,0,"string Path",100,100,"B"));
@@ -63,5 +37,10 @@ public class Vault extends Item {
     {
         int x = xpos - super.getXpos();
         int y = ypos - super.getYpos();
+        int id = (x-186)/33;
+        if(id > 0 && id < 4){
+            addInput(id);
+        }
+
     }
 }
