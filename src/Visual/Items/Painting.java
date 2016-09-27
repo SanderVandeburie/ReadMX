@@ -1,5 +1,7 @@
 package Visual.Items;
 
+import Game.Inventory;
+import Game.Player;
 import Visual.Item;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
@@ -9,20 +11,12 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 public class Painting extends Item {
     private String keyId;
 
-    public Boolean getOpen() {
-        return isOpen;
-    }
 
-    private Boolean isOpen;
     private Item next;
 
     public Painting(int xpos, int ypos, String imagePath, int width, int height,String key, Item next,boolean collectable,boolean dropable) {
-        super(xpos, ypos, imagePath, width, height, collectable,dropable);
-        isOpen = false;
+        super(xpos, ypos, imagePath, width, height);
         this.next = next;
-    }
-    private void open(){
-        isOpen = true;
     }
 
     public Item getNext() {
@@ -34,7 +28,9 @@ public class Painting extends Item {
         if(key instanceof Key){
             if(keyId.matches(((Key) key).getKeyId()))
             {
-                open();
+                key.dropOutOfInventory();
+                //todo
+                //Player.addToInventory(new Key(0,0,"some string path","C"));
                 return true;
             }
         }

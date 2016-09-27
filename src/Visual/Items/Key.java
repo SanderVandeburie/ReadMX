@@ -7,8 +7,8 @@ import Visual.Item;
  */
 public class Key extends Item {
     private String keyId;
-    public Key(int xpos, int ypos,String imagePath,int width,int height,String keyId,boolean collectable,boolean dropable){
-        super(xpos,ypos,imagePath,width,height,collectable,dropable);
+    public Key(int xpos, int ypos,String imagePath,String keyId){
+        super(xpos,ypos,imagePath,100,100);
         this.keyId = keyId;
     }
 

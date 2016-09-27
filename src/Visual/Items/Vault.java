@@ -1,6 +1,7 @@
 package Visual.Items;
 
 import Game.Inventory;
+import Game.Player;
 import Visual.Item;
 
 /**
@@ -9,8 +10,9 @@ import Visual.Item;
 public class Vault extends Item {
     private int[] input =  new int[4];
     private int[] solution = new int[4];
-    public Vault(int xpos, int ypos, String imagePath, int width, int height,boolean collectable,boolean dropable) {
-        super(xpos, ypos, imagePath, width, height, collectable,dropable);
+    private Boolean zoom = false;
+    public Vault(int xpos, int ypos, String imagePath, int width, int height,boolean collectable) {
+        super(xpos, ypos, imagePath, width, height);
         solution[0] = 2;
         solution[1] = 7;
         solution[2] = 5;
@@ -28,12 +30,23 @@ public class Vault extends Item {
             }
         }
         if (res){
-            Inventory.addItem(new Key(0,0,"string Path",100,100,"B",false,true));
+            Player.addToInventory(new Key(0,0,"string Path","B"));
             //todo string aan passen
             super.setImage("newstring");
         }
     }
-    public void onClick(int xpos,int ypos)
+
+    @Override
+    public Boolean clicked(){
+        if(!zoom){
+            super.setXpos(0);
+            super.setYpos(0);
+            //todo edit width
+        }
+        return  false;
+    }
+
+    public void Click(int xpos,int ypos)
     {
         int x = xpos - super.getXpos();
         int y = ypos - super.getYpos();

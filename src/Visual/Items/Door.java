@@ -16,7 +16,7 @@ public class Door extends Item {
     private Boolean isOpen;
     private int next;
     public Door(int xpos,int ypos,String imagePath,int width,int height,String keyId,int next,boolean collectable,boolean dropable){
-        super(xpos,ypos,imagePath, width, height, collectable,dropable);
+        super(xpos,ypos,imagePath, width, height);
         this.keyId = keyId;
         isOpen = false;
         this.next = next;
@@ -36,6 +36,7 @@ public class Door extends Item {
             if(keyId.matches(((Key) key).getKeyId()))
             {
                 open();
+                key.dropOutOfInventory();
                 return true;
             }
         }

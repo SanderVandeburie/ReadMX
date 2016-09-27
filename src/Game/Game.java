@@ -27,17 +27,16 @@ public final class Game extends Application{
     Item currentHolding;
     Stage stage;
     Item tmp;
-    private Inventory inventory;
     Group root;
     Scene theScene;
     Canvas canvas;
     GraphicsContext gc;
     Image img;
+    Player player;
 
     public Game(Stage stage) throws Exception {
         this.stage = stage;
-        this.inventory =  new Inventory();
-
+        player =  new Player();
         Init();
         LoadGame();
 
@@ -63,32 +62,30 @@ public final class Game extends Application{
 
         View view1 = new View("file:resources\\WallRoom1.png",1);
 
-        Item item1v1 = new Item(480,50,"file:resources\\Door-closed.png",250,600,false,false);
-        Item item2v1 = new Item(480,50,"file:resources\\Coathanger.png",250,600,false,false);
+        Item item1v1 = new Item(480,50,"file:resources\\Door-closed.png",250,600);
         view1.addItem(item1v1);
-        view1.addItem(item2v1);
+        //view1.addItem(item2v1);
         views[0] = view1;
 
         View view2 = new View("file:resources\\WallRoom1.png",2);
 
-        Item item1v2 = new Item(150,370,"file:resources\\Desk.png",500,300,false,false);
-        Item item2v2 = new Trashcan(630,570,"file:resources\\Trash-with-page.png",70,100,false,false);
-        Item item3v2 = new Trashcan(630,570,"file:resources\\Moose-with-knife.png",70,100,false,false);
+        Item item1v2 = new Item(150,370,"file:resources\\Desk.png",500,300);
+        Item item2v2 = new Trashcan(630,570,"file:resources\\Trash-with-page.png",70,100);
         view2.addItem(item1v2);
         view2.addItem(item2v2);
-        view2.addItem(item3v2);
+        //view2.addItem(item3v2);
         views[1] = view2;
 
         View view3 = new View("file:resources\\WallRoom1.png",3);
 
-        Item item1v3 = new Item(340,100,"file:resources\\Window.png",500,400,false,false);
+        Item item1v3 = new Item(340,100,"file:resources\\Window.png",500,400);
         view3.addItem(item1v3);
         views[2] = view3;
 
         View view4 = new View("file:resources\\WallRoom1.png",4);
 
-        Item item1v4 = new Item(740,320,"file:resources\\Vault.png",250,350,false,false);
-        Item item2v4 = new Item(300, 150,"file:resources\\RomanPoster.png",300,200,false,false);
+        Item item1v4 = new Item(740,320,"file:resources\\Vault.png",250,350);
+        Item item2v4 = new Item(300, 150,"file:resources\\RomanPoster.png",300,200);
         view4.addItem(item1v4);
         view4.addItem(item2v4);
         views[3] = view4;
@@ -103,9 +100,9 @@ public final class Game extends Application{
 
         View view1 = new View("file:resources\\WallRoom2.png",1);
 
-        Item item1v1 = new Item(480,50,"file:resources\\Door-closed.png",250,600,false,false);
-        Item item2v1 = new Trashcan(300,570,"file:resources\\Trash-no-page.png",70,100,false,false);
-        Item item3v1 = new CaneHolder(850,370,"file:resources\\Cane-holder.png",70,300,true,false);
+        Item item1v1 = new Item(480,50,"file:resources\\Door-closed.png",250,600);
+        Item item2v1 = new Trashcan(300,570,"file:resources\\Trash-no-page.png",70,100);
+        Item item3v1 = new CaneHolder(850,370,"file:resources\\Cane-holder.png",70,300);
         view1.addItem(item1v1);
         view1.addItem(item2v1);
         view1.addItem(item3v1);
@@ -113,22 +110,22 @@ public final class Game extends Application{
 
         View view2 = new View("file:resources\\WallRoom2.png",2);
 
-        Item item1v2 = new Item(480,50,"file:resources\\Door-closed.png",250,600,false,false);
+        Item item1v2 = new Item(480,50,"file:resources\\Door-closed.png",250,600);
         view2.addItem(item1v2);
         views[1] = view2;
 
         View view3 = new View("file:resources\\WallRoom2.png",3);
 
-        Item item1v3 = new Item(480,50,"file:resources\\Door-open.png",250,600,false,false);
+        Item item1v3 = new Item(480,50,"file:resources\\Door-open.png",250,600);
         view3.addItem(item1v3);
         views[2] = view3;
 
         View view4 = new View("file:resources\\WallRoom2.png",4);
 
-        Key key = new Key(1,1,"file:resources\\Key.bmp",1,1,"B",true,true);
+        Key key = new Key(1,1,"file:resources\\Key.bmp","B");
 
         Item item1v4 = new Painting(620,100,"file:resources\\Painting-Man.png",320,440,"cane",key,false,true);
-        Item item2v4 = new Item(230,100,"file:resources\\Painting-Woman.png",320,440,false,false);
+        Item item2v4 = new Item(230,100,"file:resources\\Painting-Woman.png",320,440);
         view4.addItem(item1v4);
         view4.addItem(item2v4);
         views[3] = view4;
@@ -138,7 +135,7 @@ public final class Game extends Application{
     }
 
     private void LoadGame() throws Exception {
-        currentRoom = 1;
+        currentRoom = 2;
         GetCurrentRoom().setCurrentView(1);
         start(stage);
     }
@@ -158,13 +155,35 @@ public final class Game extends Application{
         theScene.setOnMouseClicked(new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(javafx.scene.input.MouseEvent event) {
-                tmp = GetCurrentRoom().GetCurrentView().findItem((int) event.getX(),(int) event.getY());
-                ViewChange((int) event.getX(),(int) event.getY());
-                if(tmp != null)
-                {
-                    tmp.interactWith(currentHolding);
+                //todo kijken waar word geklikt
+                int x =  (int)event.getX();
+                int y =  (int)event.getY();
+                if (CheckInventory(x,y));
+                else if(CheckPrevious(x,y));
+                else if(CheckNext(x,y));
+                else if(CheckBook(x,y));
+                else{
+                    // view
+                    View  currentView = GetCurrentRoom().GetCurrentView();
+                    Item item = currentView.findItem((int) event.getX(),(int) event.getY());
+                    if(currentHolding == null)
+                    {
+                       if(item.clicked()){
+                           {
+                                currentView.dropItem(item);
+                           }
+                       }
+                    }
+                    else
+                    {
+                        if(item.interactWith(currentHolding)){
+
+                        }
+
+                    }
+
+                }
                     Paint();
-                };
             }
         });
 
@@ -214,22 +233,41 @@ public final class Game extends Application{
     private Room GetCurrentRoom(){
         return rooms[currentRoom-1];    }
 
-    private void ViewChange(int x, int y){
-        CheckNext(x,y);
-        CheckPrevious(x,y);
-        CheckInventory(x,y);
+    private Boolean CheckPrevious(int x , int y){
+        if (y > 650 && y < 750 && x < 120 && x > 20)
+        {
+            GoPrevious();
+            return true;
+        }
+        return false;
     }
-    private void CheckInventory(int x , int y){
-        if(x < 1180){
-            inRoom(x,y);
+    private Boolean CheckNext(int x , int y){
+        if (y > 650 && y < 750 && x < 1100 && x > 1000)
+        {
+            GoNext();
+            return true;
         }
-        else{
+        return false;
+    }
+    private Boolean CheckInventory(int x , int y){
+        if(x > 1180){
             inIventory(y);
+            return true;
         }
+        return false;
+    }
+    private Boolean CheckBook(int x, int y){
+        if(x > 50 && x < 250 && y > 550 && y < 750)
+        {
+            //todo add book
+            return true;
+        }
+        return false;
     }
     private void inIventory(int y){
-        if (inventory.getItemOn(y) != null)
-        currentHolding = inventory.getItemOn(y);
+        if (Player.getItemFromInventory(y) != null)
+        currentHolding = Player.getItemFromInventory(y);
+        System.out.print("current item is selected");
     }
     private void inRoom(int x,int y){
         View currentView = GetCurrentRoom().GetCurrentView();
@@ -238,32 +276,14 @@ public final class Game extends Application{
             if(currentHolding != null){
                 if(clicked.interactWith(currentHolding))
                 {
-                    if(clicked.isDropable())
-                        inventory.removeItem(clicked);
                     CheckDoors((Door) clicked);
-                    CheckPaintings((Painting) clicked);
+                    //CheckPaintings((Painting) clicked);
                 }
-            }
-            else if(clicked.isCollectable()){
-                inventory.addItem(clicked.GetItem());
-                if(clicked.isDropable())
-                currentView.dropItem(clicked);
             }
         }
 
     }
-    private void CheckPrevious(int x , int y){
-        if (y > 650 && y < 750 && x < 120 && x > 20)
-        {
-            GoPrevious();
-        }
-    }
-    private void CheckNext(int x , int y){
-        if (y > 650 && y < 750 && x < 1100 && x > 1000)
-        {
-            GoNext();
-        }
-    }
+
     private void GoPrevious(){
         if(GetCurrentRoom().GetCurrentView().getId() == 1)
             GetCurrentRoom().setCurrentView(4);
@@ -285,12 +305,6 @@ public final class Game extends Application{
     {
         if(door.getOpen())
             currentRoom = door.getNextRoom();
-        Paint();
-    }
-    private void CheckPaintings(Painting door)
-    {
-        if(door.getOpen())
-            Inventory.addItem(door.getNext());
         Paint();
     }
 
