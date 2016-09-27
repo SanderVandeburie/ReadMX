@@ -1,6 +1,7 @@
 package Visual.Items;
 
 import Game.Inventory;
+import Game.Player;
 import Visual.Item;
 
 /**
@@ -28,7 +29,7 @@ public class Vault extends Item {
             }
         }
         if (res){
-            Inventory.addItem(new Key(0,0,"string Path",100,100,"B",false));
+            Player.addToInventory(new Key(0,0,"string Path",100,100,"B",false));
             //todo string aan passen
             super.setImage("newstring");
         }

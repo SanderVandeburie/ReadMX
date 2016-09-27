@@ -9,6 +9,10 @@ import javafx.scene.image.Image;
  */
 public class Item {
     private int xpos;
+    private int ypos;
+    private int width;
+    private int height;
+    private String image;
 
 
     private boolean collectable;
@@ -41,10 +45,7 @@ public class Item {
         image =  path;
     }
 
-    private int ypos;
-    private int width;
-    private int height;
-    private String image;
+
 
 
     public Item(int xpos,int ypos,String imagePath,int width,int height,boolean collectable){
@@ -54,6 +55,10 @@ public class Item {
         this.width = width;
         this.height = height;
         this.collectable = collectable;
+    }
+
+    public Boolean clicked(){
+        return false;
     }
 
 

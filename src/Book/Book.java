@@ -17,16 +17,16 @@ public class Book {
     private int height = 600;
     private Boolean isOpen = false;
 
-    public Book (int xpos, int ypos){
+    public Book (){
 
         page = new ArrayList<String>();
         place = 0;
-        x = xpos;
-        y = ypos;
+        x = 50;
+        y = 550;
     }
 
 
-    public void InsertPage (String path){
+    public void insertPage (String path){
        page.add(path);
     }
 

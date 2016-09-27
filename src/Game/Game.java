@@ -27,7 +27,7 @@ public final class Game extends Application{
     Item currentHolding;
     Stage stage;
     Item tmp;
-    private Inventory inventory;
+    Player player;
     Group root;
     Scene theScene;
     Canvas canvas;
@@ -36,9 +36,9 @@ public final class Game extends Application{
 
     public Game(Stage stage) throws Exception {
         this.stage = stage;
-        this.inventory =  new Inventory();
         Init();
         LoadGame();
+        player = new Player();
 
 
 
@@ -167,7 +167,7 @@ public final class Game extends Application{
 
     }
     private void inIventory(int y){
-        currentHolding = inventory.getItemOn(y);
+        currentHolding = Player.getItemFromInventory(y);
     }
     private void inRoom(int x,int y){
         View currentView = GetCurrentRoom().GetCurrentView();
@@ -176,12 +176,8 @@ public final class Game extends Application{
             if(currentHolding != null){
                 if(clicked.interactWith(currentHolding))
                 {
-                    inventory.removeItem(clicked);
+                    Player.removeItem(clicked);
                 }
-            }
-            else if(clicked.isCollectable()){
-                inventory.addItem(clicked);
-                currentView.dropItem(clicked);
             }
         }
 

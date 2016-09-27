@@ -4,12 +4,12 @@ import Visual.Item;
 import Visual.Items.Key;
 
 public class Inventory {
-    private static Item[] items;
+    private  Item[] items;
 
     public Inventory(){
         items = new Item[5];
     }
-    public static void addItem(Item toAdd){
+    public void addItem(Item toAdd){
         for(int i = 0;i<items.length;i++)
         {
             if(items[i] == null){
