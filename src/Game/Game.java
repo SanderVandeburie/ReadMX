@@ -220,10 +220,11 @@ public final class Game extends Application{
         gc.drawImage(img, 1000, 650);
     }
     private void PaintRoom(){
-        img = new Image(GetCurrentRoom().GetCurrentView().getBackground(),1180, 800, false, false);
+        View currentView = GetCurrentRoom().GetCurrentView();
+        img = new Image(currentView.getBackground(),1180, 800, false, false);
         gc.drawImage( img, 0, 0 );
 
-        for (Item item : GetCurrentRoom().GetCurrentView().getItems())
+        for (Item item : currentView.getItems())
         {
             img = new Image(item.getImage(),item.getWidth(),item.getHeight(),false,false);
             gc.drawImage(img, item.getXpos(), item.getYpos());
