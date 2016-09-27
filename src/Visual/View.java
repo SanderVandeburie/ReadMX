@@ -55,7 +55,9 @@ public class View {
 
     }
 
-
+    public void dropItem(Item item){
+        items.remove(item);
+    }
 
 }
 

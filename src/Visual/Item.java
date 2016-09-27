@@ -1,13 +1,13 @@
 package Visual;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.scene.image.Image;
 
 /**
  * Created by yodi on 27/09/2016.
  */
 public class Item {
-    private int id;
     private int xpos;
 
     public int getXpos() {
@@ -15,6 +15,12 @@ public class Item {
     }
     public int getYpos() {
         return ypos;
+    }
+    public void setXpos(int x){
+        this.xpos = x;
+    }
+    public void setYpos(int y){
+        this.ypos = y;
     }
     public int getWidth() {
         return width;
@@ -25,6 +31,9 @@ public class Item {
     public String getImage() {
         return image;
     }
+    public void setImage(String path){
+        image =  path;
+    }
 
     private int ypos;
     private int width;
@@ -32,8 +41,7 @@ public class Item {
     private String image;
 
 
-    public Item(int id, int xpos,int ypos,String imagePath,int width,int height){
-        this.id = id;
+    public Item(int xpos,int ypos,String imagePath,int width,int height){
         this.xpos = xpos;
         this.ypos = ypos;
         this.image = new String(imagePath);
@@ -41,8 +49,10 @@ public class Item {
         this.height = height;
     }
 
-    public void interactWith(Item item)
+
+
+    public Boolean interactWith(Item item)
     {
-        System.out.println(this.image);
+        return false;
     }
 }

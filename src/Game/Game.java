@@ -1,6 +1,7 @@
 package Game;
 
 import Visual.Item;
+import Visual.Items.Key;
 import Visual.Room;
 import Book.Book;
 import Visual.View;
@@ -25,6 +26,7 @@ public final class Game extends Application{
     Item currentHolding;
     Stage stage;
     Item tmp;
+    private Inventory inventory;
     Group root;
     Scene theScene;
     Canvas canvas;
@@ -33,9 +35,15 @@ public final class Game extends Application{
 
     public Game(Stage stage) throws Exception {
         this.stage = stage;
-
+        this.inventory =  new Inventory();
         Init();
         LoadGame();
+
+
+
+
+        //GetCurrentRoom().GetCurrentView().addMouseListener(this);
+        //addMouseListener(this);
     }
 
     private void Init(){
@@ -163,6 +171,44 @@ public final class Game extends Application{
         CheckPrevious(x,y);
     }
     private void CheckPrevious(int x , int y){
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getX() < 1180){
+            inRoom(e);
+        }
+        else{
+            inIventory(e);
+        }
+
+
+    }
+    private void inIventory(MouseEvent e){
+        if(currentHolding == inventory.getItemOn(e.getY())){
+            currentHolding = null;
+        }
+        else{
+            currentHolding = inventory.getItemOn(e.getY());
+        }
+    }
+    private void inRoom(MouseEvent e){
+        View currentView = GetCurrentRoom().GetCurrentView();
+        Item clicked = currentView.findItem(e.getX(),e.getY());
+        if(currentHolding != null){
+            if(clicked.interactWith(currentHolding))
+            {
+                inventory.removeItem(clicked);
+            }
+        }
+        else{
+            inventory.addItem(clicked);
+            currentView.dropItem(clicked);
+        }
+    }
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    private void CheckPrevious(int x , int y)
+    {
         if (y > 650 && y < 750 && x < 120 && x > 20)
         {
             GoPrevious();
