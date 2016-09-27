@@ -10,8 +10,14 @@ import javafx.scene.image.Image;
 public class Item {
     private int xpos;
 
+
+    private boolean collectable;
+
     public int getXpos() {
         return xpos;
+    }
+    public boolean isCollectable() {
+        return collectable;
     }
     public int getYpos() {
         return ypos;
@@ -41,12 +47,13 @@ public class Item {
     private String image;
 
 
-    public Item(int xpos,int ypos,String imagePath,int width,int height){
+    public Item(int xpos,int ypos,String imagePath,int width,int height,boolean collectable){
         this.xpos = xpos;
         this.ypos = ypos;
         this.image = new String(imagePath);
         this.width = width;
         this.height = height;
+        this.collectable = collectable;
     }
 
 

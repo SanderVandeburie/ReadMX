@@ -9,8 +9,8 @@ import Visual.Item;
 public class Vault extends Item {
     private int[] input =  new int[4];
     private int[] solution = new int[4];
-    public Vault(int xpos, int ypos, String imagePath, int width, int height) {
-        super(xpos, ypos, imagePath, width, height);
+    public Vault(int xpos, int ypos, String imagePath, int width, int height,boolean collectable) {
+        super(xpos, ypos, imagePath, width, height, collectable);
         solution[0] = 2;
         solution[1] = 7;
         solution[2] = 5;
@@ -28,7 +28,7 @@ public class Vault extends Item {
             }
         }
         if (res){
-            Inventory.addItem(new Key(0,0,"string Path",100,100,"B"));
+            Inventory.addItem(new Key(0,0,"string Path",100,100,"B",false));
             //todo string aan passen
             super.setImage("newstring");
         }

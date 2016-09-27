@@ -2,6 +2,7 @@ package Game;
 
 import Visual.Item;
 import Visual.Items.Key;
+import Visual.Items.Trashcan;
 import Visual.Room;
 import Book.Book;
 import Visual.View;
@@ -52,10 +53,6 @@ public final class Game extends Application{
 
         CreateRoom1();
         //CreateRoom2();
-        //CreateRoom3();
-        //CreateRoom4();
-        //CreateRoom5();
-
     }
 
     private void CreateRoom1() {
@@ -63,30 +60,30 @@ public final class Game extends Application{
 
         View[] views = new View[4];
 
-        View view1 = new View("file:resources\\WallRoom1.jpg",1);
+        View view1 = new View("file:resources\\WallRoom1.png",1);
 
-        Item item1v1 = new Item(1,880,100,"file:resources\\Door-closed.png",250,600);
+        Item item1v1 = new Item(630,50,"file:resources\\Door-closed.png",250,600,false);
         view1.addItem(item1v1);
         views[0] = view1;
 
-        View view2 = new View("file:resources\\WallRoom1.jpg",2);
+        View view2 = new View("file:resources\\WallRoom1.png",2);
 
-        Item item2v1 = new Item(2,100,400,"file:resources\\Desk.png",500,300);
-        Item item2v2 = new Item(2,100,600,"file:resources\\Trash-with-page.png",100,50);
+        Item item2v1 = new Item(150,370,"file:resources\\Desk.png",500,300,false);
+        Item item2v2 = new Trashcan(630,570,"file:resources\\Trash-with-page.png",70,100,false);
         view2.addItem(item2v1);
         view2.addItem(item2v2);
         views[1] = view2;
 
-        View view3 = new View("file:resources\\WallRoom1.jpg",3);
+        View view3 = new View("file:resources\\WallRoom1.png",3);
 
-        Item item3v1 = new Item(3,300,100,"file:resources\\Window.jpg",300,500);
+        Item item3v1 = new Item(340,100,"file:resources\\Window.jpg",500,400,false);
         view3.addItem(item3v1);
         views[2] = view3;
 
-        View view4 = new View("file:resources\\WallRoom1.jpg",4);
+        View view4 = new View("file:resources\\WallRoom1.png",4);
 
-        Item item4v1 = new Item(4,880,500,"file:resources\\Vault.png",200,200);
-        Item item4v2 = new Item(5,70, 200,"file:resources\\RomanPoster.png",300,200);
+        Item item4v1 = new Item(740,320,"file:resources\\Vault.png",250,350,false);
+        Item item4v2 = new Item(300, 150,"file:resources\\RomanPoster.png",300,200,false);
         view4.addItem(item4v1);
         view4.addItem(item4v2);
         views[3] = view4;
@@ -97,15 +94,7 @@ public final class Game extends Application{
     private void CreateRoom2() {
 
     }
-    private void CreateRoom3() {
 
-    }
-    private void CreateRoom4() {
-
-    }
-    private void CreateRoom5() {
-
-    }
 
     private void LoadGame() throws Exception {
         currentRoom = 1;
@@ -114,12 +103,6 @@ public final class Game extends Application{
     }
     @Override
     public void start(Stage theStage) throws Exception {
-        root = null;
-        theScene = null;
-        canvas = null;
-        img = null;
-        gc = null;
-
         root = new Group();
         theScene = new Scene( root );
         canvas = new Canvas( 1280, 800);
@@ -139,6 +122,7 @@ public final class Game extends Application{
                 if(tmp != null)
                 {
                     tmp.interactWith(currentHolding);
+                    Paint();
                 };
             }
         });
@@ -169,74 +153,67 @@ public final class Game extends Application{
     private void ViewChange(int x, int y){
         CheckNext(x,y);
         CheckPrevious(x,y);
+        CheckInventory(x,y);
+    }
+    private void CheckInventory(int x , int y){
+
+        if(x < 1180){
+            inRoom(x,y);
+        }
+        else{
+            inIventory(y);
+        }
+
+
+    }
+    private void inIventory(int y){
+        currentHolding = inventory.getItemOn(y);
+    }
+    private void inRoom(int x,int y){
+        View currentView = GetCurrentRoom().GetCurrentView();
+        Item clicked = currentView.findItem(x,y);
+        if(clicked != null){
+            if(currentHolding != null){
+                if(clicked.interactWith(currentHolding))
+                {
+                    inventory.removeItem(clicked);
+                }
+            }
+            else if(clicked.isCollectable()){
+                inventory.addItem(clicked);
+                currentView.dropItem(clicked);
+            }
+        }
+
     }
     private void CheckPrevious(int x , int y){
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        if(e.getX() < 1180){
-            inRoom(e);
-        }
-        else{
-            inIventory(e);
-        }
-
-
-    }
-    private void inIventory(MouseEvent e){
-        if(currentHolding == inventory.getItemOn(e.getY())){
-            currentHolding = null;
-        }
-        else{
-            currentHolding = inventory.getItemOn(e.getY());
-        }
-    }
-    private void inRoom(MouseEvent e){
-        View currentView = GetCurrentRoom().GetCurrentView();
-        Item clicked = currentView.findItem(e.getX(),e.getY());
-        if(currentHolding != null){
-            if(clicked.interactWith(currentHolding))
-            {
-                inventory.removeItem(clicked);
-            }
-        }
-        else{
-            inventory.addItem(clicked);
-            currentView.dropItem(clicked);
-        }
-    }
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-        private void CheckPrevious ( int x, int y)
+        if (y > 650 && y < 750 && x < 120 && x > 20)
         {
-            if (y > 650 && y < 750 && x < 120 && x > 20) {
-                GoPrevious();
-            }
+            GoPrevious();
         }
-
-    private void CheckNext(int x, int y) {
-        if (y > 650 && y < 750 && x < 1100 && x > 1000) {
+    }
+    private void CheckNext(int x , int y){
+        if (y > 650 && y < 750 && x < 1100 && x > 1000)
+        {
             GoNext();
         }
     }
-
-    private void GoPrevious() {
-        if (GetCurrentRoom().GetCurrentView().getId() == 1)
+    private void GoPrevious(){
+        if(GetCurrentRoom().GetCurrentView().getId() == 1)
             GetCurrentRoom().setCurrentView(4);
         else
-            GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId() - 1);
+            GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId()-1);
 
         Paint();
     }
-
-    private void GoNext() {
-        if (GetCurrentRoom().GetCurrentView().getId() == 4)
+    private void GoNext(){
+        if(GetCurrentRoom().GetCurrentView().getId() == 4)
             GetCurrentRoom().setCurrentView(1);
         else
-            GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId() + 1);
+            GetCurrentRoom().setCurrentView(GetCurrentRoom().GetCurrentView().getId()+1);
 
         Paint();
     }
-}
+
 
 }
