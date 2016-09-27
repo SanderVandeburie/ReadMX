@@ -21,6 +21,8 @@ public class View {
 
     public void addItem(Item item){
         items.add(item);
+
+
     }
 
 }
