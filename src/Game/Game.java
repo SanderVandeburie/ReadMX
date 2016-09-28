@@ -45,23 +45,27 @@ public final class Game extends Application{
         //GetCurrentRoom().GetCurrentView().addMouseListener(this);
         //addMouseListener(this);
     }
+    public void setCurrentRoom(int id){
+        currentRoom = id;
+    }
 
     private void Init(){
 
-        rooms = new Room[2];
+        rooms = new Room[3];
 
         CreateRoom1();
         CreateRoom2();
+        CreateRoom3();
     }
 
     private void CreateRoom1() {
-        Room room = new Room(1);
+        Room room = new Room(0);
 
         View[] views = new View[4];
 
         View view1 = new View("file:resources\\WallRoom1.png",1);
 
-        Item item1v1 = new Item(480,50,"file:resources\\Door-closed.png",250,600);
+        Item item1v1 = new Door(480,50,"file:resources\\Door-closed.png",250,600,"knif",2,this);
         view1.addItem(item1v1);
         //view1.addItem(item2v1);
         views[0] = view1;
@@ -69,9 +73,11 @@ public final class Game extends Application{
         View view2 = new View("file:resources\\WallRoom1.png",2);
 
         Item item1v2 = new Item(150,370,"file:resources\\Desk.png",500,300);
+        Item item3v2 = new Moose(650,80,"file:resources\\Moose-with-knife.png",400,350);
         Item item2v2 = new Trashcan(630,570,"file:resources\\Trash-with-page.png",70,100,"file:resources\\p2.jpg");
         view2.addItem(item1v2);
         view2.addItem(item2v2);
+        view2.addItem(item3v2);
         //view2.addItem(item3v2);
         views[1] = view2;
 
@@ -83,10 +89,11 @@ public final class Game extends Application{
 
         View view4 = new View("file:resources\\WallRoom1.png",4);
 
-        Item item1v4 = new Item(740,320,"file:resources\\Vault.png",250,350);
+        Item item1v4 = new Vault(740,320,"file:resources\\Vault.png",250,350);
         Item item2v4 = new Item(300, 150,"file:resources\\RomanPoster.png",300,200);
-        view4.addItem(item1v4);
         view4.addItem(item2v4);
+        view4.addItem(item1v4);
+
         views[3] = view4;
 
         room.setViews(views);
@@ -94,13 +101,14 @@ public final class Game extends Application{
     }
     private void CreateRoom2() {
         Room room = new Room(1);
+        room.setCurrentView(1);
 
         View[] views = new View[4];
 
         View view1 = new View("file:resources\\WallRoom2.png",1);
 
         Item item1v1 = new Item(480,50,"file:resources\\Door-closed.png",250,600);
-        Item item2v1 = new Trashcan(300,570,"file:resources\\Trash-with-page.png",70,100,"file:resources\\p17.jpg");
+        Item item2v1 = new Trashcan(300,570,"file:resources\\Trash-with-page.png",70,100,"file:resources\\p7.jpg");
         Item item3v1 = new CaneHolder(850,370,"file:resources\\Cane-holder.png",70,300);
         view1.addItem(item1v1);
         view1.addItem(item2v1);
@@ -109,13 +117,13 @@ public final class Game extends Application{
 
         View view2 = new View("file:resources\\WallRoom2.png",2);
 
-        Item item1v2 = new Item(480,50,"file:resources\\Door-closed.png",250,600);
+        Item item1v2 = new Door(480,50,"file:resources\\Door-closed.png",250,600,"C",3,this);
         view2.addItem(item1v2);
         views[1] = view2;
 
         View view3 = new View("file:resources\\WallRoom2.png",3);
 
-        Item item1v3 = new Item(480,50,"file:resources\\Door-open.png",250,600);
+        Item item1v3 = new Door(480,50,"file:resources\\Door-open.png",250,600,"open",1,this);
         view3.addItem(item1v3);
         views[2] = view3;
 
@@ -131,6 +139,19 @@ public final class Game extends Application{
 
         room.setViews(views);
         rooms[1] = room;
+    }
+    private void CreateRoom3(){
+        Room room = new Room(2);
+        room.setCurrentView(1);
+
+        View[] views = new View[1];
+
+        View view1 = new View("file:resources\\to-be-continued.png",1);
+        views[0] = view1;
+
+        room.setViews(views);
+        room.setCurrentView(1);
+        rooms[2] = room;
     }
 
     private void LoadGame() throws Exception {
@@ -167,19 +188,23 @@ public final class Game extends Application{
                     Item item = currentView.findItem((int) event.getX(),(int) event.getY());
                     if(currentHolding == null)
                     {
-                       if(item.clicked()){
-                           {
-                                currentView.dropItem(item);
-                           }
-                       }
+                        if(item instanceof Vault){
+                            ((Vault) item).Click(x,y);
+                        }
+                        else {
+                            if (item.clicked()) {
+                                {
+                                    currentView.dropItem(item);
+                                }
+                            }
+                        }
                     }
                     else
                     {
                         if(item.interactWith(currentHolding)){
                             currentView.dropItem(item);
-
                         }
-
+                        deSelect();
                     }
 
                 }
@@ -282,11 +307,7 @@ public final class Game extends Application{
         if (item != null) {
             if(currentHolding == item)
             {
-                if (currentHolding instanceof Key) {
-                    Key tmp = (Key) currentHolding;
-                    tmp.select();
-                }
-                currentHolding = null;
+                deSelect();
             }
             else{
                 currentHolding = Player.getItemFromInventory(y);
@@ -299,6 +320,14 @@ public final class Game extends Application{
         }
 
     }
+    private void deSelect(){
+        if (currentHolding instanceof Key) {
+            Key tmp = (Key) currentHolding;
+            tmp.select();
+        }
+        currentHolding = null;
+    }
+
     private void inRoom(int x,int y){
         View currentView = GetCurrentRoom().GetCurrentView();
         Item clicked = currentView.findItem(x,y);
