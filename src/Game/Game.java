@@ -22,7 +22,6 @@ import java.awt.event.MouseListener;
 public final class Game extends Application{
 
     int currentRoom;
-    Book book;
     Room[] rooms;
     Item currentHolding;
     Stage stage;
@@ -70,7 +69,7 @@ public final class Game extends Application{
         View view2 = new View("file:resources\\WallRoom1.png",2);
 
         Item item1v2 = new Item(150,370,"file:resources\\Desk.png",500,300);
-        Item item2v2 = new Trashcan(630,570,"file:resources\\Trash-with-page.png",70,100);
+        Item item2v2 = new Trashcan(630,570,"file:resources\\Trash-with-page.png",70,100,"file:resources\\p2.jpg");
         view2.addItem(item1v2);
         view2.addItem(item2v2);
         //view2.addItem(item3v2);
@@ -101,7 +100,7 @@ public final class Game extends Application{
         View view1 = new View("file:resources\\WallRoom2.png",1);
 
         Item item1v1 = new Item(480,50,"file:resources\\Door-closed.png",250,600);
-        Item item2v1 = new Trashcan(300,570,"file:resources\\Trash-no-page.png",70,100);
+        Item item2v1 = new Trashcan(300,570,"file:resources\\Trash-with-page.png",70,100,"file:resources\\p17.jpg");
         Item item3v1 = new CaneHolder(850,370,"file:resources\\Cane-holder.png",70,300);
         view1.addItem(item1v1);
         view1.addItem(item2v1);
@@ -135,7 +134,7 @@ public final class Game extends Application{
     }
 
     private void LoadGame() throws Exception {
-        currentRoom = 2;
+        currentRoom = 1;
         GetCurrentRoom().setCurrentView(1);
         start(stage);
     }
@@ -191,10 +190,13 @@ public final class Game extends Application{
 
         theStage.show();
     }
+
+
     private void Paint(){
         PaintRoom();
         PaintMoves();
         PaintInventory();
+        PaintBookIcon();
     }
     private void PaintInventory(){
         img = new Image("file:resources\\Inventory.png",110,800,false,false);
@@ -219,6 +221,12 @@ public final class Game extends Application{
         img = new Image("file:resources\\Next.png",150,100,false,false);
         gc.drawImage(img, 1000, 650);
     }
+    private void PaintBookIcon(){
+        Book book = Player.getBook();
+        Image img =  new Image(book.getImage());
+//        img = new Image("file:resources\\Bookcover.png",980,600,false,false);
+       gc.drawImage(img, book.getX(), book.getY(),book.getWidth(),book.getHeight());
+    }
     private void PaintRoom(){
         View currentView = GetCurrentRoom().GetCurrentView();
         img = new Image(currentView.getBackground(),1180, 800, false, false);
@@ -231,11 +239,12 @@ public final class Game extends Application{
         }
     }
 
+
     private Room GetCurrentRoom(){
         return rooms[currentRoom-1];    }
 
     private Boolean CheckPrevious(int x , int y){
-        if (y > 650 && y < 750 && x < 120 && x > 20)
+        if (y > 650 && y < 750 && x < 170 && x > 20)
         {
             GoPrevious();
             return true;
@@ -243,7 +252,7 @@ public final class Game extends Application{
         return false;
     }
     private Boolean CheckNext(int x , int y){
-        if (y > 650 && y < 750 && x < 1100 && x > 1000)
+        if (y > 650 && y < 750 && x < 1150 && x > 1000)
         {
             GoNext();
             return true;
@@ -258,17 +267,37 @@ public final class Game extends Application{
         return false;
     }
     private Boolean CheckBook(int x, int y){
-        if(x > 50 && x < 250 && y > 550 && y < 750)
+         Book book = Player.getBook();
+        if (y > book.getY() && y < book.getY()+book.getHeight() && x < book.getX()+book.getWidth() && x > book.getX())
         {
-            //todo add book
+            book.clickBook();
             return true;
         }
         return false;
     }
+
+
     private void inIventory(int y){
-        if (Player.getItemFromInventory(y) != null)
-        currentHolding = Player.getItemFromInventory(y);
-        System.out.print("current item is selected");
+        Item item =  Player.getItemFromInventory(y);
+        if (item != null) {
+            if(currentHolding == item)
+            {
+                if (currentHolding instanceof Key) {
+                    Key tmp = (Key) currentHolding;
+                    tmp.select();
+                }
+                currentHolding = null;
+            }
+            else{
+                currentHolding = Player.getItemFromInventory(y);
+                if (currentHolding instanceof Key) {
+                    Key tmp = (Key) currentHolding;
+                    tmp.select();
+                }
+            }
+
+        }
+
     }
     private void inRoom(int x,int y){
         View currentView = GetCurrentRoom().GetCurrentView();

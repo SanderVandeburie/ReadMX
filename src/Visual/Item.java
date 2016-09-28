@@ -69,10 +69,6 @@ public class Item {
         return false;
     }
 
-    public Item GetItem()
-    {
-        return this;
-    }
     public void dropOutOfInventory()
     {
         Player.removeItem(this);

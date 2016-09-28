@@ -13,16 +13,16 @@ public class Book {
     private int place;
     private int lastePage;
     private List<String> page;
-    private int width = 390;
-    private int height = 600;
+    private int width = 80;
+    private int height = 100;
     private Boolean isOpen = false;
 
     public Book (){
-
         page = new ArrayList<String>();
+        page.add(0,"file:resources\\Bookicon.png");
         place = 0;
         x = 50;
-        y = 550;
+        y = 50;
     }
 
 
@@ -30,8 +30,13 @@ public class Book {
        page.add(path);
     }
 
+    public String getImage(){
+        return page.get(place);
+    }
+
     private void OpenBook(){
-        //todo add cover image
+        page.remove(0);
+        page.add(0,"file:resources\\Bookcover.png");
         x = 445;
         y = 100;
         width = 390;
@@ -39,11 +44,12 @@ public class Book {
         isOpen = true;
     }
     private void CloseBook(){
-        //todo add bookIcon
+        page.remove(0);
+        page.add(0,"file:resources\\Bookicon.png");
         x = 50;
-        y = 550;
-        width = 200;
-        height = 200;
+        y = 50;
+        width = 80;
+        height = 100;
         isOpen = false;
     }
     public void clickBook(){
@@ -69,6 +75,11 @@ public class Book {
         }
     }
 
+//    public void Open(){
+//        isOpen = true;
+//    }
+//    public void Close();
+
 
 
 
@@ -86,6 +97,13 @@ public class Book {
 
     public int getY() {
         return y;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+    public int getHeight(){
+        return height;
     }
 
 

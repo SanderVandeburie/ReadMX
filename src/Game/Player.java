@@ -25,4 +25,8 @@ public class Player {
     public static void addPage(String path){
         book.insertPage(path);
     }
+    public static Book getBook()
+    {
+        return book;
+    }
 }
